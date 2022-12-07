@@ -123,7 +123,7 @@ namespace eshop_pbl6.Controllers.Identities
                 return Ok(CommonReponse.CreateResponse(ResponseCodes.ErrorException,ex.Message,false));
             }
         }
-        [Authorize(EshopPermissions.ProductPermissions.Get)]
+        [Authorize(EshopPermissions.UserPermissions.Get)]
         [HttpGet]
         public IActionResult Get()
         {
