@@ -18,8 +18,6 @@ namespace eshop_pbl6.Helpers.Identities
         public string Password{get;set;}
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public string Phone1 { get; set; }
-        public string Address1 { get; set; }
         public IFormFile Avatar { get; set; }
         public DateTime BirthDay { get; set; }
         public GenderEnum Gender { get; set; }
