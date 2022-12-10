@@ -14,9 +14,13 @@ namespace eshop_pbl6.Entities
     {
         [Key]
         public int id {get; set;}
+        [Required]
         public double longitude {get; set;}
+        [Required]
         public double latitude {get;set;}
+        [Required]
         public double speed {get; set;}
+        [Required]
         public DateTime datetime {get; set;}
         [ForeignKey("User")]
         public int idUser {get; set;}

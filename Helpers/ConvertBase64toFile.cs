@@ -9,13 +9,18 @@ namespace eshop_api.Helpers
     {
         public static IFormFile Base64ToImage(string ImageBase64)
         {
-
-            string guid = Guid.NewGuid().ToString();
-            byte[] bytes = Convert.FromBase64String(ImageBase64);
-            MemoryStream stream = new MemoryStream(bytes);
-            IFormFile file = new FormFile(stream, 0, bytes.Length, guid, guid);
-                
-            return file;
+            try{
+                string guid = Guid.NewGuid().ToString();
+                byte[] bytes = Convert.FromBase64String(ImageBase64);
+                MemoryStream stream = new MemoryStream(bytes);
+                IFormFile file = new FormFile(stream, 0, bytes.Length, guid, guid);
+                    
+                return file;
+            }
+            catch(Exception ex){
+                throw ex;
+            }
+            
         }
     }
 }

@@ -24,7 +24,7 @@ namespace eshop_pbl6.Controllers.Positions
         }
 
         [HttpPost("add-position")]
-        [Authorize(EshopPermissions.TrackingPermissions.Add)]
+        // [Authorize(EshopPermissions.UserPermissions.Add)]
         public async Task<IActionResult> AddPosition(CreateUpdatePosition createUpdatePosition)
         {
             try
@@ -45,7 +45,7 @@ namespace eshop_pbl6.Controllers.Positions
         }
 
         [HttpGet("Get-Position")]
-        [Authorize(EshopPermissions.TrackingPermissions.Add)]
+        [Authorize(EshopPermissions.UserPermissions.Get)]
         public async Task<IActionResult> GetPosition()
         {
             try
@@ -60,7 +60,7 @@ namespace eshop_pbl6.Controllers.Positions
         }
 
         [HttpGet("Get-Position-By-User")]
-        [Authorize(EshopPermissions.TrackingPermissions.Add)]
+        [Authorize(EshopPermissions.UserPermissions.Get)]
         public async Task<IActionResult> GetPositionByUser()
         {
              try
@@ -81,7 +81,7 @@ namespace eshop_pbl6.Controllers.Positions
         }
 
         [HttpGet("Get-Position-By-Time")]
-        [Authorize(EshopPermissions.TrackingPermissions.Add)]
+        [Authorize(EshopPermissions.UserPermissions.Get)]
         public async Task<IActionResult> GetPositionByTime(int day, int month)
         {
             try
@@ -96,7 +96,7 @@ namespace eshop_pbl6.Controllers.Positions
         }
 
         [HttpGet("Get-Position-By-Date-Month")]
-        [Authorize(EshopPermissions.TrackingPermissions.Add)]
+        [Authorize(EshopPermissions.UserPermissions.Get)]
         public async Task<IActionResult> GetPositionByDateMonth(DateTime begin, DateTime end)
         {
             try
