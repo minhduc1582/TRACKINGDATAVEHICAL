@@ -26,20 +26,19 @@ namespace eshop_api.Services.Positions
         public async Task<PositionDto> AddPositionByUser(CreateUpdatePosition createUpdatePosition, string username)
         {
             int iduser = _context.AppUsers.FirstOrDefault(x => x.Username == username).Id;
+            IFormFile image1 = ConvertBase64toFile.Base64ToImage(createUpdatePosition.image1);
+            IFormFile image2 = ConvertBase64toFile.Base64ToImage(createUpdatePosition.image2);
             Position position = new Position();
             position.longitude = createUpdatePosition.longitude;
             position.latitude = createUpdatePosition.latitude;
             position.datetime = createUpdatePosition.datetime;
             position.idUser = iduser;
             position.speed = createUpdatePosition.speed;
+            position.url1 = CloudImage.UploadImage(image1);
+            position.url2 = CloudImage.UploadImage(image2);
             var result = _context.Positions.Add(position);
             await _context.SaveChangesAsync();
             PositionDto positionDto = _mapper.Map<Position, PositionDto>(result.Entity);
-            foreach(IFormFile item in createUpdatePosition.images)
-            {
-                var images = await _image.AddImage(item, result.Entity.id);
-                positionDto.Images.Add(images.Url);
-            }
             return positionDto;
         }
 
@@ -51,7 +50,6 @@ namespace eshop_api.Services.Positions
            foreach(var item in position)
            {
                 PositionDto positionDto = _mapper.Map<Position, PositionDto>(item);
-                positionDto.Images = images.Where(x => x.PositionId == item.id).Select(x => x.Url).ToList();
                 positionDtos.Add(positionDto);
            }
            return await Task.FromResult(positionDtos);
@@ -71,7 +69,6 @@ namespace eshop_api.Services.Positions
                         if(Convert.ToInt64(item.datetime.Date) == day && Convert.ToInt64(item.datetime.Month) == month)
                         {
                             PositionDto positionDto = _mapper.Map<Position, PositionDto>(item);
-                            positionDto.Images = images.Where(x => x.PositionId == item.id).Select(x => x.Url).ToList();
                             positionDtos.Add(positionDto);
                         }
                     }
@@ -83,7 +80,6 @@ namespace eshop_api.Services.Positions
                         if(Convert.ToInt64(item.datetime.Month) == month)
                         {
                             PositionDto positionDto = _mapper.Map<Position, PositionDto>(item);
-                            positionDto.Images = images.Where(x => x.PositionId == item.id).Select(x => x.Url).ToList();
                             positionDtos.Add(positionDto);
                         }
                     }
@@ -94,7 +90,6 @@ namespace eshop_api.Services.Positions
                 foreach(var item in position)
                 {
                     PositionDto positionDto = _mapper.Map<Position, PositionDto>(item);
-                    positionDto.Images = images.Where(x => x.PositionId == item.id).Select(x => x.Url).ToList();
                     positionDtos.Add(positionDto);
                 }
             }
@@ -112,7 +107,6 @@ namespace eshop_api.Services.Positions
                 foreach(var item in position)
                 {
                     PositionDto positionDto = _mapper.Map<Position, PositionDto>(item);
-                    positionDto.Images = images.Where(x => x.PositionId == item.id).Select(x => x.Url).ToList();
                     positionDtos.Add(positionDto);
                 }
             }
@@ -122,7 +116,6 @@ namespace eshop_api.Services.Positions
                 foreach(var item in position)
                 {
                     PositionDto positionDto = _mapper.Map<Position, PositionDto>(item);
-                    positionDto.Images = images.Where(x => x.PositionId == item.id).Select(x => x.Url).ToList();
                     positionDtos.Add(positionDto);
                 }
             }
@@ -132,7 +125,6 @@ namespace eshop_api.Services.Positions
                 foreach(var item in position)
                 {
                     PositionDto positionDto = _mapper.Map<Position, PositionDto>(item);
-                    positionDto.Images = images.Where(x => x.PositionId == item.id).Select(x => x.Url).ToList();
                     positionDtos.Add(positionDto);
                 }
             }
@@ -148,7 +140,6 @@ namespace eshop_api.Services.Positions
             foreach(var item in position)
             {
                 PositionDto positionDto = _mapper.Map<Position, PositionDto>(item);
-                positionDto.Images = images.Where(x => x.PositionId == item.id).Select(x => x.Url).ToList();
                 positionDtos.Add(positionDto);
             }
             return await Task.FromResult(positionDtos);

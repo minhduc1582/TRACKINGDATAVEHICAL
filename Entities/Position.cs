@@ -12,10 +12,6 @@ namespace eshop_pbl6.Entities
 {
     public class Position
     {
-        public Position()
-        {
-            Images = new List<Image>();
-        }
         [Key]
         public int id {get; set;}
         public double longitude {get; set;}
@@ -24,8 +20,10 @@ namespace eshop_pbl6.Entities
         public DateTime datetime {get; set;}
         [ForeignKey("User")]
         public int idUser {get; set;}
+        public string url1 {get; set;}
+        public string url2{get; set;}
         [JsonIgnore]
         public virtual User user {get; set;}
-        public virtual List<Image> Images {get; set;}
+        
     }
 }

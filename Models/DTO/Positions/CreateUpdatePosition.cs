@@ -16,6 +16,7 @@ namespace eshop_pbl6.Models.DTO.Positions
         public double latitude {get;set;}
         public double speed {get; set;}
         public DateTime datetime {get; set;}
-        public IFormFileCollection images {get; set;}
+        public string image1 {get; set;}
+        public string image2 {get; set;}
     }
 }
