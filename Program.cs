@@ -66,8 +66,8 @@ services.AddDbContext<DataContext>(
 services.AddScoped<ITokenService, TokenService>();
 services.AddScoped<IJwtUtils, JwtUtils>();
 services.AddScoped<IUserService, UserService>();
+services.AddAutoMapper(typeof(AutoMapperProfile).Assembly);
 #endregion
-
 services.AddCors(o =>
                 o.AddPolicy("CorsPolicy", policy =>
                     policy.WithOrigins("*")
