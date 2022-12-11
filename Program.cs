@@ -1,5 +1,6 @@
 using eshop_api.Helpers;
 using eshop_api.Services.Identities;
+using eshop_api.Services.Positions;
 using eshop_pbl6.Authorization;
 using eshop_pbl6.Helpers.Identities;
 using eshop_pbl6.Services.Identities;
@@ -66,8 +67,9 @@ services.AddDbContext<DataContext>(
 services.AddScoped<ITokenService, TokenService>();
 services.AddScoped<IJwtUtils, JwtUtils>();
 services.AddScoped<IUserService, UserService>();
+services.AddScoped<IPositionService, PositionService>();
+services.AddAutoMapper(typeof(AutoMapperProfile).Assembly);
 #endregion
-
 services.AddCors(o =>
                 o.AddPolicy("CorsPolicy", policy =>
                     policy.WithOrigins("*")
