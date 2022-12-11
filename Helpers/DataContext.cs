@@ -23,5 +23,7 @@ namespace eshop_api.Helpers
         public DbSet<Role> Roles {get;set;}
         public DbSet<RoleInPermission> RoleInPermissions{get;set;}
         public DbSet<Permission> Permissions{get;set;}
+        public DbSet<Position> Positions{get; set;}
+        public DbSet<Image> Images{get; set;}
     }
 }
