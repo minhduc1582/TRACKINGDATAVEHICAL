@@ -19,7 +19,7 @@ namespace eshop_pbl6.Controllers.Identities
         {
             _userService = userService;
         }
-        [Authorize(EshopPermissions.ManagerPermissions.Get)]
+        [Authorize(TrackingData.ManagerPermissions.Get)]
         [HttpGet("get-all-permissions")]
         public IActionResult Get()
         {
@@ -34,7 +34,7 @@ namespace eshop_pbl6.Controllers.Identities
             }
             
         }
-        [Authorize(EshopPermissions.ManagerPermissions.Get)]
+        [Authorize(TrackingData.ManagerPermissions.Get)]
         [HttpGet("get-all-roles")]
         public IActionResult GetRoles()
         {
@@ -49,7 +49,7 @@ namespace eshop_pbl6.Controllers.Identities
             }
             
         }
-        [Authorize(EshopPermissions.ManagerPermissions.Get)]
+        [Authorize(TrackingData.ManagerPermissions.Get)]
         [HttpGet("get-permissions-by-username")]
         public IActionResult GetPermissionByUserName(string username)
         {
