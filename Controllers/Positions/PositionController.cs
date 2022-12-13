@@ -144,12 +144,17 @@ namespace eshop_pbl6.Controllers.Positions
             } 
         }
         [HttpGet("Daily-Report")]
+        [Authorize(TrackingData.UserPermissions.Get)]
         public async Task<IActionResult> GetDailyReport(DateTime date)
         {
             try
             {
-                var result = await _positionService.DailyDriveStatistics(date);
-                    return Ok(CommonReponse.CreateResponse(ResponseCodes.Ok, "thêm dữ liệu thành công", result));
+                var token = HttpContext.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
+                var handler = new JwtSecurityTokenHandler();
+                var jwtSecurityToken = handler.ReadJwtToken(token);
+                var username = jwtSecurityToken.Claims.First(claim => claim.Type == "nameid").Value;
+                var result = await _positionService.DailyDriveStatistics(username,date);
+                return Ok(CommonReponse.CreateResponse(ResponseCodes.Ok, "thêm dữ liệu thành công", result));
             }
             catch(Exception ex)
             {
@@ -157,13 +162,11 @@ namespace eshop_pbl6.Controllers.Positions
             }
         }
         [HttpGet("Monthly-Report")]
-        [Authorize(EshopPermissions.UserPermissions.Get)]
+        [Authorize(TrackingData.UserPermissions.Get)]
         public async Task<IActionResult> GetMonthlyReport(int month)
         {
             try
             {
-                string remoteIpAddress = HttpContext.Connection.RemoteIpAddress.ToString();
-                //var serId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
                 var token = HttpContext.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
                 var handler = new JwtSecurityTokenHandler();
                 var jwtSecurityToken = handler.ReadJwtToken(token);
