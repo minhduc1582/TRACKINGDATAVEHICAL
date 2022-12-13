@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace eshop_pbl6.Helpers.Identities
 {
-    public static class EshopPermissions
+    public static class TrackingData
     {
         public const string GroupName = "TrackingData";
 
