@@ -190,9 +190,10 @@ namespace eshop_api.Services.Positions
         //     });
         //     return Task.FromResult(statistics);
         // }
-        public Task<DrivingStatistic> DailyDriveStatistics(DateTime date)
+        public Task<DrivingStatistic> DailyDriveStatistics(string username,DateTime date)
         {
-            var position = _context.Positions.Where(x => x.datetime.Day == date.Day && x.datetime.Month == date.Month).ToList();
+            var userId = _context.AppUsers.FirstOrDefault(x=> x.Username == username).Id;
+            var position = _context.Positions.Where(x => x.datetime.Day == date.Day && x.datetime.Month == date.Month && x.idUser == userId).ToList();
             int j = 0;
             double avg=0;
             double[][] list = new double[position.Count()][];
