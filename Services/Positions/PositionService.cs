@@ -147,5 +147,97 @@ namespace eshop_api.Services.Positions
             }
             return await Task.FromResult(positionDtos);
         }
+        // public Task<List<DrivingStatistic>> DriveStatistics(DateTime date)
+        // {
+        //     var position = _context.Positions.Where(x => x.datetime.Day == date.Day && x.datetime.Month == date.Month).ToList();
+        //     int j = 0;
+        //     double avg=0;
+        //     double[][] list = new double[position.Count()][];
+        //     List<DrivingStatistic> statistics = new List<DrivingStatistic>();
+        //     foreach(var i in position)
+        //     {
+        //         list[j] = new double[2];
+        //         int k = 0;
+        //         list[j][k] = i.latitude;
+        //         k++;
+        //         list[j][k] = i.longitude;
+        //         j++;
+        //         avg+=i.speed;
+        //     }
+        //     avg/=position.Count();
+        //     statistics.Add(new DrivingStatistic{
+        //         averageSpeed = avg,
+        //         road = list
+        //     });
+        //     return Task.FromResult(statistics);
+        // }
+        public Task<DrivingStatistic> DailyDriveStatistics(DateTime date)
+        {
+            var position = _context.Positions.Where(x => x.datetime.Day == date.Day && x.datetime.Month == date.Month).ToList();
+            int j = 0;
+            double avg=0;
+            double[][] list = new double[position.Count()][];
+            DrivingStatistic statistics = new DrivingStatistic();
+            foreach(var i in position)
+            {
+                list[j] = new double[2];
+                int k = 0;
+                list[j][k] = i.latitude;
+                k++;
+                list[j][k] = i.longitude;
+                j++;
+                avg+=i.speed;
+            }
+            avg/=position.Count();
+            statistics.averageSpeed = avg;
+            statistics.road = list;
+            statistics.date = date.ToShortDateString();
+            return Task.FromResult(statistics);
+        }
+
+        public Task<DrivingStatistic> DailyDriveStatistics(int day, int month)
+        {
+            var position = _context.Positions.Where(x => x.datetime.Day == day && x.datetime.Month == month).ToList();
+            int j = 0;
+            double avg=0;
+            double[][] list = new double[position.Count()][];
+            DateTime date = DateTime.Now;
+            DrivingStatistic statistics = new DrivingStatistic();
+            foreach(var i in position)
+            {
+                list[j] = new double[2];
+                int k = 0;
+                list[j][k] = i.latitude;
+                k++;
+                list[j][k] = i.longitude;
+                j++;
+                avg+=i.speed;
+                date = i.datetime;
+            }
+            avg/=position.Count();
+            statistics.averageSpeed = avg;
+            statistics.road = list;
+            statistics.date = date.ToShortDateString();
+            return Task.FromResult(statistics);
+        }
+
+        public async Task<List<DrivingStatistic>> MonthlyDriveStatistics(int month)
+        {
+            var position = _context.Positions.Where(x=> x.datetime.Month == month).OrderBy(x=> x.datetime.Day).ToList();
+            List<DrivingStatistic> statistics = new List<DrivingStatistic>();
+            int day = 0;
+            foreach(var i in position)
+            {
+                if(i.datetime.Day != day && day!= 0)
+                {
+                    var statistic1 = await DailyDriveStatistics(day, month);
+                    statistics.Add(statistic1);
+                }
+                day = i.datetime.Day;
+            }
+            var statistic = await DailyDriveStatistics(day, month);
+            statistics.Add(statistic);
+            return statistics;
+        }
     }
 }

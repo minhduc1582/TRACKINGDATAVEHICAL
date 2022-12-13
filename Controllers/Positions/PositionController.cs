@@ -121,6 +121,31 @@ namespace eshop_pbl6.Controllers.Positions
                 return Ok(CommonReponse.CreateResponse(ResponseCodes.ErrorException, ex.Message, "null"));
             } 
         }
-        
+        [HttpGet("Daily-Report")]
+        public async Task<IActionResult> GetDailyReport(DateTime date)
+        {
+            try
+            {
+                var result = await _positionService.DailyDriveStatistics(date);
+                    return Ok(CommonReponse.CreateResponse(ResponseCodes.Ok, "thêm dữ liệu thành công", result));
+            }
+            catch(Exception ex)
+            {
+                return Ok(CommonReponse.CreateResponse(ResponseCodes.ErrorException, ex.Message, "null"));
+            }
+        }
+        [HttpGet("Monthly-Report")]
+        public async Task<IActionResult> GetMonthlyReport(int month)
+        {
+            try
+            {
+                var result = await _positionService.MonthlyDriveStatistics(month);
+                    return Ok(CommonReponse.CreateResponse(ResponseCodes.Ok, "thêm dữ liệu thành công", result));
+            }
+            catch(Exception ex)
+            {
+                return Ok(CommonReponse.CreateResponse(ResponseCodes.ErrorException, ex.Message, "null"));
+            }
+        }
     }
 }
