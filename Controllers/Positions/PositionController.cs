@@ -47,7 +47,7 @@ namespace eshop_pbl6.Controllers.Positions
 
         [HttpPost("add-position-By-File")]
         // [Authorize(EshopPermissions.UserPermissions.Add)]
-        public async Task<IActionResult> AddPositionByFile(CreateUpdatePositionByFileDto createUpdatePosition)
+        public async Task<IActionResult> AddPositionByFile([FromForm] CreateUpdatePositionByFileDto createUpdatePosition)
         {
             try
             {
