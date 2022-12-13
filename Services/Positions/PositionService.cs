@@ -7,6 +7,7 @@ using eshop_api.Helpers;
 using eshop_api.Services.Images;
 using eshop_pbl6.Entities;
 using eshop_pbl6.Models.DTO.Positions;
+using TrackingDataVehical.Models.DTO.Positions;
 
 namespace eshop_api.Services.Positions
 {
@@ -39,6 +40,24 @@ namespace eshop_api.Services.Positions
                 IFormFile image2 = ConvertBase64toFile.Base64ToImage(createUpdatePosition.image2);
                 position.url1 = CloudImage.UploadImage(image2);
             }
+            var result = _context.Positions.Add(position);
+            await _context.SaveChangesAsync();
+            PositionDto positionDto = _mapper.Map<Position, PositionDto>(result.Entity);
+            return positionDto;
+        }
+
+        public async Task<PositionDto> AddPositionByUser(CreateUpdatePositionByFileDto createUpdatePosition, string username)
+        {
+             int iduser = _context.AppUsers.FirstOrDefault(x => x.Username == username).Id;
+            
+            Position position = new Position();
+            position.longitude = createUpdatePosition.longitude;
+            position.latitude = createUpdatePosition.latitude;
+            position.datetime = createUpdatePosition.datetime;
+            position.idUser = iduser;
+            position.speed = createUpdatePosition.speed;
+            position.url1 = CloudImage.UploadImage(createUpdatePosition.image1);
+            position.url1 = CloudImage.UploadImage(createUpdatePosition.image2);
             var result = _context.Positions.Add(position);
             await _context.SaveChangesAsync();
             PositionDto positionDto = _mapper.Map<Position, PositionDto>(result.Entity);
