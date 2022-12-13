@@ -135,11 +135,18 @@ namespace eshop_pbl6.Controllers.Positions
             }
         }
         [HttpGet("Monthly-Report")]
+        [Authorize(EshopPermissions.UserPermissions.Get)]
         public async Task<IActionResult> GetMonthlyReport(int month)
         {
             try
             {
-                var result = await _positionService.MonthlyDriveStatistics(month);
+                string remoteIpAddress = HttpContext.Connection.RemoteIpAddress.ToString();
+                //var serId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                var token = HttpContext.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
+                var handler = new JwtSecurityTokenHandler();
+                var jwtSecurityToken = handler.ReadJwtToken(token);
+                var username = jwtSecurityToken.Claims.First(claim => claim.Type == "nameid").Value;
+                var result = await _positionService.MonthlyDriveStatistics(username, month);
                     return Ok(CommonReponse.CreateResponse(ResponseCodes.Ok, "thêm dữ liệu thành công", result));
             }
             catch(Exception ex)

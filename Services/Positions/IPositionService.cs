@@ -16,6 +16,7 @@ namespace eshop_api.Services.Positions
         // Task<List<DrivingStatistic>> DriveStatistics (DateTime date);
         Task<DrivingStatistic> DailyDriveStatistics (DateTime date);
         Task<DrivingStatistic> DailyDriveStatistics (int day, int month);
-        Task<List<DrivingStatistic>> MonthlyDriveStatistics (int month);
+        Task<List<DrivingStatistic>> MonthlyDriveStatistics (string username, int month);
+        // Task<List<AllDriverStatistic>> MonthlyDriverStatistics(int month);
     }
 }

@@ -207,9 +207,9 @@ namespace eshop_api.Services.Positions
             {
                 list[j] = new double[2];
                 int k = 0;
-                list[j][k] = i.latitude;
-                k++;
                 list[j][k] = i.longitude;
+                k++;
+                list[j][k] = i.latitude;
                 j++;
                 avg+=i.speed;
                 date = i.datetime;
@@ -221,9 +221,10 @@ namespace eshop_api.Services.Positions
             return Task.FromResult(statistics);
         }
 
-        public async Task<List<DrivingStatistic>> MonthlyDriveStatistics(int month)
+        public async Task<List<DrivingStatistic>> MonthlyDriveStatistics(string username, int month)
         {
-            var position = _context.Positions.Where(x=> x.datetime.Month == month).OrderBy(x=> x.datetime.Day).ToList();
+            var userId = _context.AppUsers.FirstOrDefault(x=> x.Username == username).Id;
+            var position = _context.Positions.Where(x=> x.datetime.Month == month && x.idUser == userId).OrderBy(x=> x.datetime.Day).ToList();
             List<DrivingStatistic> statistics = new List<DrivingStatistic>();
             int day = 0;
             foreach(var i in position)
@@ -239,5 +240,23 @@ namespace eshop_api.Services.Positions
             statistics.Add(statistic);
             return statistics;
         }
+        // public async Task<List<AllDriverStatistic>> MonthlyDriverStatistics(int month)
+        // {
+        //     var position = _context.Positions.Where(x=> x.datetime.Month == month).OrderBy(x=> x.datetime.Day).ToList();
+        //     List<AllDriverStatistic> statistics = new List<AllDriverStatistic>();
+        //     int idUser = 0;
+        //     foreach(var i in position)
+        //     {
+        //         if(i.datetime.Day != day && day!= 0)
+        //         {
+        //             var statistic1 = await DailyDriveStatistics(day, month);
+        //             statistics.Add(statistic1);
+        //         }
+        //         day = i.datetime.Day;
+        //     }
+        //     var statistic = await DailyDriveStatistics(day, month);
+        //     statistics.Add(statistic);
+        //     return statistics;
+        // }
     }
 }
