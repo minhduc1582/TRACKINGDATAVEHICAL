@@ -15,5 +15,10 @@ namespace eshop_api.Services.Positions
         Task<List<PositionDto>> GetPositionByUser(string username);
         Task<List<PositionDto>> GetPositionByDate(int day, int month);
         Task<List<PositionDto>> GetPositionByDateMonth(DateTime begin, DateTime end);
+        // Task<List<DrivingStatistic>> DriveStatistics (DateTime date);
+        Task<DrivingStatistic> DailyDriveStatistics (DateTime date);
+        Task<DrivingStatistic> DailyDriveStatistics (int day, int month);
+        Task<List<DrivingStatistic>> MonthlyDriveStatistics (string username, int month);
+        // Task<List<AllDriverStatistic>> MonthlyDriverStatistics(int month);
     }
 }

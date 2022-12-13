@@ -143,6 +143,38 @@ namespace eshop_pbl6.Controllers.Positions
                 return Ok(CommonReponse.CreateResponse(ResponseCodes.ErrorException, ex.Message, "null"));
             } 
         }
-        
+        [HttpGet("Daily-Report")]
+        public async Task<IActionResult> GetDailyReport(DateTime date)
+        {
+            try
+            {
+                var result = await _positionService.DailyDriveStatistics(date);
+                    return Ok(CommonReponse.CreateResponse(ResponseCodes.Ok, "thêm dữ liệu thành công", result));
+            }
+            catch(Exception ex)
+            {
+                return Ok(CommonReponse.CreateResponse(ResponseCodes.ErrorException, ex.Message, "null"));
+            }
+        }
+        [HttpGet("Monthly-Report")]
+        [Authorize(EshopPermissions.UserPermissions.Get)]
+        public async Task<IActionResult> GetMonthlyReport(int month)
+        {
+            try
+            {
+                string remoteIpAddress = HttpContext.Connection.RemoteIpAddress.ToString();
+                //var serId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                var token = HttpContext.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
+                var handler = new JwtSecurityTokenHandler();
+                var jwtSecurityToken = handler.ReadJwtToken(token);
+                var username = jwtSecurityToken.Claims.First(claim => claim.Type == "nameid").Value;
+                var result = await _positionService.MonthlyDriveStatistics(username, month);
+                    return Ok(CommonReponse.CreateResponse(ResponseCodes.Ok, "thêm dữ liệu thành công", result));
+            }
+            catch(Exception ex)
+            {
+                return Ok(CommonReponse.CreateResponse(ResponseCodes.ErrorException, ex.Message, "null"));
+            }
+        }
     }
 }
