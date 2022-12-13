@@ -10,6 +10,7 @@ using eshop_pbl6.Models.DTO.Positions;
 using System.IdentityModel.Tokens.Jwt;
 using eshop_api.Authorization;
 using eshop_pbl6.Helpers.Common;
+using TrackingDataVehical.Models.DTO.Positions;
 
 namespace eshop_pbl6.Controllers.Positions
 {
@@ -46,7 +47,7 @@ namespace eshop_pbl6.Controllers.Positions
 
         [HttpPost("add-position-By-File")]
         // [Authorize(EshopPermissions.UserPermissions.Add)]
-        public async Task<IActionResult> AddPositionByFile(CreateUpdatePosition createUpdatePosition)
+        public async Task<IActionResult> AddPositionByFile(CreateUpdatePositionByFileDto createUpdatePosition)
         {
             try
             {
