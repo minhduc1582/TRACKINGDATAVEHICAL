@@ -4,8 +4,6 @@ namespace eshop_pbl6.Helpers.Identities
     {
         Admin,
         User,
-        Manager,
-        Staff
-
+        Manager
     }
 }

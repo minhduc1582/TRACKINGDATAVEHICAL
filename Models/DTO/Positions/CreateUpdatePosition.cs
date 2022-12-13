@@ -15,7 +15,7 @@ namespace eshop_pbl6.Models.DTO.Positions
         public double longitude {get; set;}
         public double latitude {get;set;}
         public double speed {get; set;}
-        public DateTime datetime {get; set;}
+        public DateTime datetime {get; set;} = DateTime.Now;
         public string image1 {get; set;}
         public string image2 {get; set;}
     }

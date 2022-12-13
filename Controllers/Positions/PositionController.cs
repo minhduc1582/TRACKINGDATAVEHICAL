@@ -23,9 +23,9 @@ namespace eshop_pbl6.Controllers.Positions
             _positionService = positionService;
         }
 
-        [HttpPost("add-position")]
+        [HttpPost("add-position-By-Base64")]
         // [Authorize(EshopPermissions.UserPermissions.Add)]
-        public async Task<IActionResult> AddPosition(CreateUpdatePosition createUpdatePosition)
+        public async Task<IActionResult> AddPositionByBase64(CreateUpdatePosition createUpdatePosition)
         {
             try
             {
@@ -44,8 +44,29 @@ namespace eshop_pbl6.Controllers.Positions
             }  
         }
 
-        [HttpGet("Get-Position")]
-        [Authorize(EshopPermissions.UserPermissions.Get)]
+        [HttpPost("add-position-By-File")]
+        // [Authorize(EshopPermissions.UserPermissions.Add)]
+        public async Task<IActionResult> AddPositionByFile(CreateUpdatePosition createUpdatePosition)
+        {
+            try
+            {
+                string remoteIpAddress = HttpContext.Connection.RemoteIpAddress.ToString();
+                //var serId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                var token = HttpContext.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
+                var handler = new JwtSecurityTokenHandler();
+                var jwtSecurityToken = handler.ReadJwtToken(token);
+                var username = jwtSecurityToken.Claims.First(claim => claim.Type == "nameid").Value;
+                var result = await _positionService.AddPositionByUser(createUpdatePosition, username);
+                return Ok(CommonReponse.CreateResponse(ResponseCodes.Ok, "thêm dữ liệu thành công", result));
+            }
+            catch(Exception ex)
+            {
+                return Ok(CommonReponse.CreateResponse(ResponseCodes.ErrorException, ex.Message, "null"));
+            }  
+        }
+
+        [HttpGet("Get-Positions")]
+        [Authorize(TrackingData.UserPermissions.GetList)]
         public async Task<IActionResult> GetPosition()
         {
             try
@@ -60,7 +81,7 @@ namespace eshop_pbl6.Controllers.Positions
         }
 
         [HttpGet("Get-Position-By-User")]
-        [Authorize(EshopPermissions.UserPermissions.Get)]
+        [Authorize(TrackingData.UserPermissions.Get)]
         public async Task<IActionResult> GetPositionByUser()
         {
              try
@@ -81,7 +102,7 @@ namespace eshop_pbl6.Controllers.Positions
         }
 
         [HttpGet("Get-Position-By-Time")]
-        [Authorize(EshopPermissions.UserPermissions.Get)]
+        [Authorize(TrackingData.UserPermissions.Get)]
         public async Task<IActionResult> GetPositionByTime(int day, int month)
         {
             try
@@ -96,7 +117,7 @@ namespace eshop_pbl6.Controllers.Positions
         }
 
         [HttpGet("Get-Position-By-Date-Month")]
-        [Authorize(EshopPermissions.UserPermissions.Get)]
+        [Authorize(TrackingData.UserPermissions.Get)]
         public async Task<IActionResult> GetPositionByDateMonth(DateTime begin, DateTime end)
         {
             try

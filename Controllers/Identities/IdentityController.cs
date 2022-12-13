@@ -123,13 +123,13 @@ namespace eshop_pbl6.Controllers.Identities
                 return Ok(CommonReponse.CreateResponse(ResponseCodes.ErrorException,ex.Message,false));
             }
         }
-        [Authorize(EshopPermissions.UserPermissions.Get)]
+        [Authorize(TrackingData.UserPermissions.Get)]
         [HttpGet]
         public IActionResult Get()
         {
             return Ok(_context.AppUsers.ToList());
         }
-        [Authorize(EshopPermissions.UserPermissions.Get)]
+        [Authorize(TrackingData.UserPermissions.Get)]
         [HttpGet("get-user")]
         public async Task<IActionResult> GetUser(){
             try{
@@ -146,7 +146,7 @@ namespace eshop_pbl6.Controllers.Identities
 
         }
         [HttpPut("change-profile")]
-        [Authorize(EshopPermissions.UserPermissions.Edit)]
+        [Authorize(TrackingData.UserPermissions.Edit)]
         public async Task<IActionResult> ChangeProfile(UpdateUserDto userDto){
             try{
                 var token = HttpContext.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
